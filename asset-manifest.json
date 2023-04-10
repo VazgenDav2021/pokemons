@@ -1,0 +1,11 @@
+{
+  "files": {
+    "main.js": "/pokemons/static/js/main.ad134097.js",
+    "static/media/logo.png": "/pokemons/static/media/logo.afb67588740de820ff68.png",
+    "index.html": "/pokemons/index.html",
+    "main.ad134097.js.map": "/pokemons/static/js/main.ad134097.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.ad134097.js"
+  ]
+}
