@@ -1,7 +1,6 @@
 {
   "name": "pokemons",
   "version": "0.1.0",
-  "homepage": "https://VazgenDav2021.github.io/pokemons",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.6",
