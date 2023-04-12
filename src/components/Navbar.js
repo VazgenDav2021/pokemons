@@ -83,7 +83,7 @@ function Navbar() {
 
   return (
     <AppBar position="static" sx={{ backgroundColor: '#fae41e' }}>
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <Toolbar disableGutters>
           <ImageList className={styles.logoBlock}>
             <Link href="#">

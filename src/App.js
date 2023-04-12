@@ -10,7 +10,7 @@ function App() {
       <Provider store={store}>
         <GlobalStyles
           styles={(theme) => ({
-            body: { margin: 0, padding: 0, boxSizing: 'border-box' }
+            body: { margin: 0, padding: 0, boxSizing: 'border-box', backgroundColor: '#e3e5d8' }
           })}
         />
         <Navbar />
