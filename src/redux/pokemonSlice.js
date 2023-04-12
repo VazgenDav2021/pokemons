@@ -1,17 +1,18 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
+import axios from "axios";
+import _ from "lodash";
 
 const PAGE_SIZE = [10, 20, 50];
 
 export const fetchPokemonImages = createAsyncThunk(
   // get List of pokemons
-  'pokemon/fetchImages',
-  async (params, {getState}) => {
-    const {page, pageSize} = getState().pokemon;
+  "pokemon/fetchImages",
+  async (params, { getState }) => {
+    const { page, pageSize } = getState().pokemon;
     const response = await axios.get(
       `https://pokeapi.co/api/v2/pokemon?limit=${pageSize}&offset=${
         (page - 1) * pageSize
-      }`,
+      }`
     );
 
     const pokemonsDetailedInfo = [];
@@ -32,12 +33,12 @@ export const fetchPokemonImages = createAsyncThunk(
       });
     }
 
-    return {pokemonsDetailedInfo, pokemonList};
-  },
+    return { pokemonsDetailedInfo, pokemonList };
+  }
 );
 
 const pokemonSlice = createSlice({
-  name: 'pokemon',
+  name: "pokemon",
   initialState: {
     pokemonsDetailed: [],
     selectedPokemon: null,
@@ -47,7 +48,7 @@ const pokemonSlice = createSlice({
     pokemonList: [],
     isSearching: false,
     isLoading: false,
-    searchingValue: '',
+    searchingValue: "",
     searchingResult: [],
   },
   reducers: {
@@ -70,19 +71,18 @@ const pokemonSlice = createSlice({
       state.searchingValue = searchingValue;
       state.isSearching = !!searchingValue;
 
-      // Filter data based on action.payload
-      const filtered = state.pokemonsDetailed.filter(pokemon => {
-        return pokemon.name
-          .toLowerCase()
-          .includes(action.payload.toLowerCase());
+      // Filter data based on query
+      const filtered = state.pokemonsDetailed.filter((pokemon) => {
+        const sanitizedPokemonName = pokemon.name.trim().toLowerCase();
+        return sanitizedPokemonName.includes(searchingValue);
       });
-
+      console.log(state);
       state.searchingResult = filtered;
     },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchPokemonImages.pending, state => {
+      .addCase(fetchPokemonImages.pending, (state) => {
         state.pokemonsDetailed = [];
         state.pokemonList = [];
         state.isLoading = true;

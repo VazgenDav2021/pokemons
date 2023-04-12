@@ -1,11 +1,13 @@
-import {Card, CardActions, Typography} from '@mui/material';
+import { Card, CardActions, Typography } from '@mui/material';
 import React from 'react';
-import {useDispatch} from 'react-redux';
-import {setModalOpen, setSelectedPokemon} from '../redux/pokemonSlice';
-import {DetailedModal} from './DetailedModal';
+import { useDispatch } from 'react-redux';
+import { setModalOpen, setSelectedPokemon } from '../redux/pokemonSlice';
+import { DetailedModal } from './DetailedModal';
+import { useStyles } from '../theme';
 
-const Pokemon = ({img, index, pokemon}) => {
+const Pokemon = ({ pokemonList, img, index, pokemon }) => {
   const dispatch = useDispatch();
+  const styles = useStyles();
   const handlePokemonClick = async () => {
     // pass to redux pokemon that has been selected
     dispatch(setSelectedPokemon(pokemon));
@@ -13,37 +15,24 @@ const Pokemon = ({img, index, pokemon}) => {
   };
   // A Card component that displays information about a Pokemon
   return (
-    <Card
-      sx={{
-        maxWidth: 345,
-        backgroundColor: '#efde4e',
-        width: '270px',
-        height: '400px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <Typography variant="h5" sx={{color: '#0c4a87'}}>
-        {pokemon?.name.charAt(0).toUpperCase() + pokemon?.name.slice(1)}
+    <Card className={styles.card}>
+      <Typography variant="h5">
+        {pokemonList[index]?.name.charAt(0).toUpperCase() + pokemonList[index]?.name.slice(1)}
       </Typography>
       <img
         src={img}
         alt={`Pokemon ${index}`}
         key={`pokemon-${index}`}
         onClick={handlePokemonClick}
-        style={{cursor: 'pointer'}}
+        style={{ cursor: 'pointer' }}
       />
-      <Typography sx={{color: '#0c4a87'}}>
+      <Typography>
         Type:{' '}
-        {pokemon.types.map(pokemon => {
-          return (
-            pokemon.type.name.charAt(0).toUpperCase() +
-            pokemon.type.name.slice(1)
-          );
+        {pokemon.types.map((pokemon) => {
+          return pokemon.type.name.charAt(0).toUpperCase() + pokemon.type.name.slice(1);
         })}
       </Typography>
-      <Typography sx={{color: '#0c4a87'}}>
+      <Typography>
         Stats:{' '}
         {pokemon.stats.reduce((prev, acc) => {
           return prev + acc.base_stat;

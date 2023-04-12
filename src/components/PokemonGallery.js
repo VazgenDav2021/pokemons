@@ -1,15 +1,18 @@
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
-import {Box, Typography} from '@mui/material';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchPokemonImages, setPageSize} from '../redux/pokemonSlice';
+import { Box, Typography } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPokemonImages, setPageSize } from '../redux/pokemonSlice';
 import Pokemon from './Pokemon';
+import { useStyles } from '../theme';
 
 const PAGE_SIZE = [10, 20, 50]; // Number of Pokemon to display on each page
 
 const PokemonGallery = () => {
   const dispatch = useDispatch();
+
+  const styles = useStyles();
 
   const {
     pokemonsDetailed,
@@ -19,48 +22,30 @@ const PokemonGallery = () => {
     isLoading,
     searchingResult,
     searchingValue,
-    isSearching,
-  } = useSelector(state => state.pokemon);
+    isSearching
+  } = useSelector((state) => state.pokemon);
   useEffect(() => {
     dispatch(fetchPokemonImages());
-  }, [dispatch, page, pageSize, searchingResult]);
+  }, [dispatch, page, pageSize]);
 
-  const handlePageSizeClick = size => {
+  const handlePageSizeClick = (size) => {
     dispatch(setPageSize(size));
   };
-
   return (
     <>
       {!isLoading && searchingValue && isSearching && (
-        <Typography
-          sx={{
-            backgroundColor: '#e3e5d8',
-            textAlign: 'center',
-            padding: '30px',
-            color: '#0c4a87',
-          }}>
-          You searched "{searchingValue}". We found {searchingResult.length}{' '}
-          results
+        <Typography className={styles.searchResult}>
+          По зарпосу "{searchingValue}" мы нашли {searchingResult.length} результатов
         </Typography>
       )}
-      <Box
-        sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '20px',
-          justifyContent: 'center',
-          alignItems: 'centr',
-          paddingTop: '50px',
-          paddingBottom: '50px',
-          backgroundColor: '#e3e5d8',
-        }}>
+      <Box className={styles.box}>
         {/* // Map through the array of pokemonsDetailed objects and render a Pokemon component for each object, passing in index, img, pokemon, and pokemonList props
          */}
         {isLoading ? (
           <CircularProgress />
         ) : isSearching ? (
           searchingResult.map((pokemon, index) => {
-            const {img} = pokemon;
+            const { img } = pokemon;
             return (
               <Pokemon
                 index={index}
@@ -73,7 +58,7 @@ const PokemonGallery = () => {
           })
         ) : (
           pokemonsDetailed?.map((pokemon, index) => {
-            const {img} = pokemon;
+            const { img, id } = pokemon;
             return (
               <Pokemon
                 index={index}
@@ -86,17 +71,9 @@ const PokemonGallery = () => {
           })
         )}
       </Box>
-      <Box
-        sx={{
-          justifyContent: 'center',
-          display: 'flex',
-          backgroundColor: '#fae41e',
-        }}>
-        {PAGE_SIZE.map(size => (
-          <Button
-            sx={{color: '#0c4a87'}}
-            key={size}
-            onClick={() => handlePageSizeClick(size)}>
+      <Box className={styles.pagination}>
+        {PAGE_SIZE.map((size) => (
+          <Button key={size} onClick={() => handlePageSizeClick(size)}>
             {size}
           </Button>
         ))}
