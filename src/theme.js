@@ -26,7 +26,8 @@ export const useStyles = makeStyles(() => {
       alignItems: 'centr',
       paddingTop: '50px',
       paddingBottom: '50px',
-      backgroundColor: '#e3e5d8'
+      backgroundColor: '#e3e5d8',
+      minHeight: '100vh'
     },
 
     pagination: {
